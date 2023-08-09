@@ -1,27 +1,17 @@
-# AngularSignals
+# OnPush Strategy:
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.8.
+Change Detection will happen only because of 5 scenarios.
+_ async pipe is used in the UI to subscribe some observable and some new values arrives.
+_ any component Input value's reference has been changed (reference in the sense of objects). => ngOnChange() Hook
+_ signal is created in the component and used in the UI and any change has happened to signals value.
+_ explicitly invoked markForCheck() method on changeDectectorRef \* Any event handling happened and state has been changed
 
-## Development server
+# Note:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. If any of such things happening the change detection will happen only on particular onpush strategy used component which trigerred the change detection as well as all the parent component up until the root component.
+2. If the global change detection is happening because of some other Default strategy component, all the onpush strategy components will be skipped if they don't have any of the above such events happened.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# POINTS TO DISCUSS:
+1. Self-closing tags
+2. Flexible ngOnDestroy
+3. 
