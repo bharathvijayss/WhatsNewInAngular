@@ -29,11 +29,19 @@
 11. To Read Signal Values without tracking dependencies use untracked function inside either computed/effect. It is very much useful when an effect needs to invoke some external code like service function which is havging some signal read inside which shouldn't be treated as a dependency.
 12. Effects might start long-running operations, which should be cancelled if the effect is destroyed or runs again before the first operation finished. When you create an effect, your function can optionally accept an onCleanup function as its first parameter. This onCleanup function lets you register a callback that is invoked before the next run of the effect begins, or when the effect is destroyed.
 
+# RXJS - InterOp - Notes:
+
+1. The toSignal function creates a signal which tracks the value of an Observable. It behaves similarly to the async pipe in templates, but is more flexible and can be used anywhere in an application. Like the async pipe, toSignal subscribes to the Observable immediately, which may trigger side effects. The subscription created by toSignal automatically unsubscribes from the given Observable upon destruction of the component in which toSignal is called.
+2. If an Observable used in toSignal produces an error, that error is thrown when the signal is read. If an Observable used in toSignal completes, the signal continues to return the most recently emitted value before completion.
+3. Options available for toSignal() is { initialValue, requireSync, manualCleanup }
+4. The toObservable utility creates an Observable which tracks the value of a signal. The signal's value is monitored with an effect, which emits the value to the Observable when it changes.
+5. 
+
 # POINTS TO DISCUSS:
 
 1. Self-closing tags
 2. Flexible ngOnDestroy
-3. Signal
+3. Signal and RxJs Interop
 4. Required inputs
 5. ES Build + Vite
 6.

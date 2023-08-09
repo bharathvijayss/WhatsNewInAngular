@@ -1,7 +1,7 @@
 <div class="d-flex mt-3 flex-row justify-content-around">
   <div id="counterDiv">
     <div class="mb-3 mt-3 fw-medium">
-      <app-signal-counter [Counter]="counterSignal()" />
+      <app-signal-counter [Counter]="counterSignal()" [Counter_type]="0" />
     </div>
     <div class="mb-3 mt-3">
       <button class="btn btn-primary me-2" (click)="updateCount(1)">
@@ -21,6 +21,10 @@
       <button class="btn btn-primary" (click)="setCount(customfield.value)">
         Set
       </button>
+    </div>
+
+    <div class="mb-3 mt-3 fw-medium">
+      <app-signal-counter [Counter]="intervalSignal()" [Counter_type]="1" />
     </div>
   </div>
   <div id="arrDiv">

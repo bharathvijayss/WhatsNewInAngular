@@ -7,7 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SignalCounterComponent implements OnInit {
 
-  @Input({ required: true }) Counter!: number;
+  @Input({ required: true }) Counter!: number | undefined;
+  @Input({ required: true}) Counter_type!: number;
 
   constructor() { }
 

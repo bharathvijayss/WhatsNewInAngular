@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, Signal, signal, computed, effect, Injector, untracked } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as _ from 'lodash';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +17,8 @@ export class HomeComponent implements OnInit {
   caseSignal: WritableSignal<boolean> = signal(true);
   untrackedCountSignal: WritableSignal<boolean> = signal(false);
   arrModifiedEffect: any;
+
+  intervalSignal!: Signal<number | undefined>;
 
   computedArrSignal: Signal<string[]> = computed(() => {
     if (this.caseSignal()) {
@@ -36,6 +40,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.startNotification();
+    this.ObservableToSignal();
   }
 
   startNotification() {
@@ -96,4 +101,19 @@ export class HomeComponent implements OnInit {
     console.log("effect cleanup triggered!!");
   }
 
+  ObservableToSignal() {
+    // requireSync should be used only when the observable can emit value synchronously say for example behaviour or replay subject.
+    // if initialvalue is not given by default undefined will be used as initialValue.
+    /*
+    If the observable need not to be unsubscribed along with the component destruction manualcleanup should be true, if it is false either the toSignal conversion
+    should be within injection context such as constructor or an explicit injector should be passed as a param.
+    */
+    let toSignalOptions = {
+      // manualCleanup: true,
+      initialValue: -1,
+      // requireSync: true,
+      injector: this.injector
+    }
+    this.intervalSignal = toSignal(interval(1000), toSignalOptions);
+  }
 }
