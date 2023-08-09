@@ -28,6 +28,7 @@
 10. When creating a Writable signal (or) Computed Signal, you can optionally provide an equality function as a option param, which will be used to check whether the new value is actually different than the previous one and the signal won't trigger any update if both are same. For writable signals, .mutate() does not check for equality because it mutates the current value without producing a new reference.
 11. To Read Signal Values without tracking dependencies use untracked function inside either computed/effect. It is very much useful when an effect needs to invoke some external code like service function which is havging some signal read inside which shouldn't be treated as a dependency.
 12. Effects might start long-running operations, which should be cancelled if the effect is destroyed or runs again before the first operation finished. When you create an effect, your function can optionally accept an onCleanup function as its first parameter. This onCleanup function lets you register a callback that is invoked before the next run of the effect begins, or when the effect is destroyed.
+13. Effects will run everytime when we try to access any signal value in UI and not for setting its value in typescript. But one time initial run will always happen regardless of signal accessed or not.
 
 # RXJS - InterOp - Notes:
 
@@ -38,6 +39,18 @@
 5. Unlike Observables, signals never provide a synchronous notification of changes. Even if your Typescript code updates a signal's value multiple times synchronously, effects which depend on its value run only after the signal has "settled".
 6. toObservable by default needs to run in an injection context, such as during construction of a component or service. If an injection context is not available, an Injector can instead be explicitly specified.
 
+# Signal Vs Observable:
+
+1. Use signals for things which is gonna rendered on UI and observable for some other things on Typescript
+2. Observables needs to be unsubscribed for memory leakage problem but signal will automatically destroyed along with its component
+3. Changes in signal value will be notified to angular only when it value is used in html
+4. Signals are useful for synchronous reactivity and rxjs is mostly useful for asynchronous reactivity.
+5. We can make use of this new reactive primitives to create a state managemnet.
+
+# RoadMap for Signals
+
+Optional zone.js -> local change detection -> simplifying angualr life cycle apis -> evolving the ecosystem.
+
 # POINTS TO DISCUSS:
 
 1. Self-closing tags
@@ -45,4 +58,4 @@
 3. Signal and RxJs Interop
 4. Required inputs
 5. ES Build + Vite
-6.
+6. RoadMap of Angular Regarding Signals
