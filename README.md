@@ -35,4 +35,5 @@ Because of these risks, setting signals is disallowed by default in effects, but
 2. Flexible ngOnDestroy
 3. Signal
 4. Required inputs
-5.
+5. ES Build + Vite
+6. 
