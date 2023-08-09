@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, Signal, signal, computed, effect, Injector, untracked } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as _ from 'lodash';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { interval } from 'rxjs';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { interval, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   arrModifiedEffect: any;
 
   intervalSignal!: Signal<number | undefined>;
+  counterObservable$!: Observable<number>;
 
   computedArrSignal: Signal<string[]> = computed(() => {
     if (this.caseSignal()) {
@@ -41,6 +42,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.startNotification();
     this.ObservableToSignal();
+    this.signalToObservable();
   }
 
   startNotification() {
@@ -72,6 +74,13 @@ export class HomeComponent implements OnInit {
 
   setCount(val: string) {
     this.counterSignal.set(parseInt(val));
+    /*
+    this.counterSignal.set(parseInt(val));
+    this.counterSignal.set(parseInt(val));
+
+    For toObservable even though we are setting the value of signal two times here the observable will emit only the second emited value
+    as it will not emit values synchronously like Regular Observable.
+    */
   }
 
   mutateArr(val: string) {
@@ -115,5 +124,18 @@ export class HomeComponent implements OnInit {
       injector: this.injector
     }
     this.intervalSignal = toSignal(interval(1000), toSignalOptions);
+  }
+
+  signalToObservable() {
+    this.counterObservable$ = toObservable(this.counterSignal, { injector: this.injector });
+    /*
+    As toObservable uses ReplaySubject behind the scene whomever subscribe at a later point of time will always get the latest emitted value
+    when they subscribe even they are subscribing to the observable.
+    */
+    this.counterObservable$.subscribe({
+      next: val => this.toastr.info(`Counter Value Updated to ${val}`),
+      error: err => { },
+      complete: () => { }
+    })
   }
 }
