@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   }
 
   startNotification() {
-    this.arrModifiedEffect = effect((effectCleanUpFn) => {
+    this.arrModifiedEffect = effect((onCleanup) => {
       if (this.caseSignal()) {
         if (this.untrackedCountSignal()) {
           this.toastr.success(`Total Available Days: ${this.arrSignal().length} and Total Count Available: ${untracked(() => { return this.counterSignal() })}`);
@@ -49,6 +49,11 @@ export class HomeComponent implements OnInit {
       } else {
         this.toastr.success(`Total Available Days: ${this.arrSignal().length}`);
       }
+
+      onCleanup(() => {
+        this.effectCleanUpFn();
+      });
+
     }, {
       injector: this.injector
     })
@@ -87,9 +92,8 @@ export class HomeComponent implements OnInit {
     this.untrackedCountSignal.update((prev) => !prev);
   }
 
-  // Need to learn usage of effectCleanUp Function usage
   effectCleanUpFn() {
-    console.log("effect is destroyed");
+    console.log("effect cleanup triggered!!");
   }
 
 }

@@ -27,6 +27,7 @@
 9. If the { allowSignalWrites: true } is passed as a param in effect then the effect will allow us to set/write values to a signal inside it.
 10. When creating a Writable signal (or) Computed Signal, you can optionally provide an equality function as a option param, which will be used to check whether the new value is actually different than the previous one and the signal won't trigger any update if both are same. For writable signals, .mutate() does not check for equality because it mutates the current value without producing a new reference.
 11. To Read Signal Values without tracking dependencies use untracked function inside either computed/effect. It is very much useful when an effect needs to invoke some external code like service function which is havging some signal read inside which shouldn't be treated as a dependency.
+12. Effects might start long-running operations, which should be cancelled if the effect is destroyed or runs again before the first operation finished. When you create an effect, your function can optionally accept an onCleanup function as its first parameter. This onCleanup function lets you register a callback that is invoked before the next run of the effect begins, or when the effect is destroyed.
 
 # POINTS TO DISCUSS:
 

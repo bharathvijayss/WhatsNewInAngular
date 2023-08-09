@@ -38,7 +38,7 @@ export class FlexibleDestroyComponent implements OnInit {
 
   flexibleDestroyer() {
     this.destroyRef.onDestroy(() => {
-      console.log("Destroy Function Called during Destroy for cleanup");
+      console.log("Destroy Function Called during destroyRef.onDestroy() for cleanup");
     })
   }
 
