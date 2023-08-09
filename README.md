@@ -8,8 +8,25 @@
 
 # OnPush Strategy - Notes:
 
-1. If any of such things happening the change detection will happen only on particular onpush strategy used component which trigerred the change detection as well as all the parent component up until the root component.
-2. If the global change detection is happening because of some other Default strategy component, all the onpush strategy components will be skipped if they don't have any of the above such events happened.
+1. If any of above 5 scenarios happening then the change detection will happen for entire component tree.
+2. If the change detection is happening, all the onpush strategy components will be skipped if they don't have any of the above such events happened (5 scenarios). 
+3. But If some of the onpush strategised components are having some changes which fall under the above 5 scenarios then all the parent components even though they are onpush strategised component and that particular component which has a change also will come under change detection along with all other child components which are of default strategy but comes under any of these onpush strategised component as a child.
+4. Modifying input properties in TypeScript code by using an API like @ViewChild or @ContentChild won't trigger change detection for onpush strategy components.
+
+# Signals - Notes:
+
+1. Computed signals are both lazily evaluated and memoized (So it's safe to perform computationally expensive derivations inside it)
+2. Computed signals are not writable signals
+3. Computed signal and Effects dependencies are dynamic
+4. Effects always run at least once.
+5. Avoid using effects for propagation of state changes. This can result in ExpressionChangedAfterItHasBeenChecked errors, infinite circular updates, or unnecessary change detection cycles.
+Because of these risks, setting signals is disallowed by default in effects, but can be enabled if absolutely necessary.
+6. By default, registering a new effect with the effect() function requires an injection context (access to the inject function). The easiest way to provide this is to call effect within a component, directive, or service constructor. If effect needs to be created outside then provide injector as a option while creating effect.
+7. Signals, Computed Signals, Effects are scoped to its parent and will get destroy along with its parent.
+8. If the { manualCleanup: true } is passed as a param in effect then the effect will not be automatically destroyed along with its parent so we have to destroy it.
+9. If the { allowSignalWrites: true } is passed as a param in effect then the effect will allow us to set/write values to a signal inside it.
+10. 
+
 
 # POINTS TO DISCUSS:
 
@@ -17,4 +34,4 @@
 2. Flexible ngOnDestroy
 3. Signal
 4. Required inputs
-5. 
+5.

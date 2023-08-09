@@ -13,7 +13,7 @@
     </div>
     <div class="mb-3 mt-3">
       <form>
-        <mat-form-field>
+        <mat-form-field class="w-100">
           <mat-label>Custom Count</mat-label>
           <input type="number" matInput value="0" #customfield />
         </mat-form-field>
@@ -25,7 +25,7 @@
   </div>
   <div id="arrDiv">
     <div class="mb-3 mt-3">
-      <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex justify-content-between align-items-center gap-1">
         <div>
           <p *ngFor="let day of arrSignal()">{{ day }}</p>
         </div>
@@ -34,17 +34,38 @@
         </div>
       </div>
       <form>
-        <mat-form-field>
+        <mat-form-field class="w-100">
           <mat-label>Add Day</mat-label>
           <input type="text" matInput #dayfield />
         </mat-form-field>
       </form>
-      <button class="btn btn-primary" (click)="mutateArr(dayfield.value)">
-        Mutate
-      </button>
-      <mat-slide-toggle class="ms-3" color="primary" [checked]="caseSignal()" (toggleChange)="toggled()">
-        {{ caseSignal() ? "Upper Case" : "Lower Case" }}
-      </mat-slide-toggle>
+      <div class="d-flex justify-content-between align-items-center">
+        <button
+          class="btn btn-primary"
+          (click)="mutateArr(dayfield.value)"
+          [disabled]="dayfield.value === ''"
+        >
+          Mutate
+        </button>
+      </div>
+      <div
+        class="d-flex justify-content-between align-items-center gap-1 mt-3 mb-3"
+      >
+        <mat-slide-toggle
+          color="primary"
+          [checked]="caseSignal()"
+          (toggleChange)="toggledCasing()"
+        >
+          {{ caseSignal() ? "Upper Case" : "Lower Case" }}
+        </mat-slide-toggle>
+        <mat-slide-toggle
+          color="primary"
+          [checked]="arrModifiedEffect"
+          (toggleChange)="toggledNotification()"
+        >
+          {{ "Notification " + (arrModifiedEffect ? "ON" : "OFF") }}
+        </mat-slide-toggle>
+      </div>
     </div>
   </div>
 </div>

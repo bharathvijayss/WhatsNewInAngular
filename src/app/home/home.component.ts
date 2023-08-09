@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, Signal, signal, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, Signal, signal, computed, effect, Injector } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -11,18 +12,40 @@ export class HomeComponent implements OnInit {
   counterSignal: WritableSignal<number> = signal(0);
   arrSignal: WritableSignal<string[]> = signal(['mondAy', 'tuEsday', 'wedNEsday']);
   caseSignal: WritableSignal<boolean> = signal(true);
+  arrModifiedEffect: any;
 
   computedArrSignal: Signal<string[]> = computed(() => {
     if (this.caseSignal()) {
-      return this.arrSignal().map((val) => val.toUpperCase());
+      return this.arrSignal().map((val) => val.toUpperCase() + ` => Count: ${this.counterSignal()}`);
     } else {
       return this.arrSignal().map((val) => val.toLowerCase());
     }
   })
 
-  constructor() { }
+  constructor(private toastr: ToastrService, private injector: Injector) {
+    // this.arrModifiedEffect = effect((effectCleanUpFn) => {
+    //   if (this.caseSignal()) {
+    //     this.toastr.success(`Total Available Days: ${this.arrSignal().length} and Total Count Available: ${this.counterSignal()}`);
+    //   } else {
+    //     this.toastr.success(`Total Available Days: ${this.arrSignal().length}`);
+    //   }
+    // })
+  }
 
   ngOnInit() {
+    this.startNotification();
+  }
+
+  startNotification() {
+    this.arrModifiedEffect = effect((effectCleanUpFn) => {
+      if (this.caseSignal()) {
+        this.toastr.success(`Total Available Days: ${this.arrSignal().length} and Total Count Available: ${this.counterSignal()}`);
+      } else {
+        this.toastr.success(`Total Available Days: ${this.arrSignal().length}`);
+      }
+    }, {
+      injector: this.injector
+    })
   }
 
   updateCount(val: number) {
@@ -41,8 +64,22 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  toggled() {
+  toggledCasing() {
     this.caseSignal.update((prev) => !prev);
+  }
+
+  toggledNotification() {
+    if (this.arrModifiedEffect) {
+      this.arrModifiedEffect.destroy();
+      this.arrModifiedEffect = null;
+    } else {
+      this.startNotification();
+    }
+  }
+
+  // Need to learn usage of effectCleanUp Function usage
+  effectCleanUpFn() {
+    console.log("effect is destroyed");
   }
 
 }
