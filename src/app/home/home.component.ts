@@ -16,10 +16,14 @@ export class HomeComponent implements OnInit {
 
   }
 
-  changeCount(val: number) {
+  updateCount(val: number) {
     this.counterSignal.update((prevValue) => {
       return prevValue + val;
     })
+  }
+
+  setCount(val: string) {
+    this.counterSignal.set(parseInt(val));
   }
 
 }

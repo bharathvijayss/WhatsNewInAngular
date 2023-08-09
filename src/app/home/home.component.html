@@ -1,11 +1,24 @@
-<div class="d-flex mt-3 flex-column">
-  <div class="mb-3">
+<div class="d-flex mt-3 flex-column justify-content-center align-items-center">
+  <div class="mb-3 mt-3 fw-medium">
     <app-signal-counter [Counter]="counterSignal()" />
   </div>
-  <div>
-    <button class="btn btn-primary me-2" (click)="changeCount(1)">
-      Increment
+  <div class="mb-3 mt-3">
+    <button class="btn btn-primary me-2" (click)="updateCount(1)">
+      Update (+1)
     </button>
-    <button class="btn btn-primary" (click)="changeCount(-1)">Decrement</button>
+    <button class="btn btn-primary" (click)="updateCount(-1)">
+      Update (-1)
+    </button>
+  </div>
+  <div class="mb-3 mt-3">
+    <form>
+      <mat-form-field>
+        <mat-label>Custom Count</mat-label>
+        <input type="number" matInput value="0" #customfield />
+      </mat-form-field>
+    </form>
+    <button class="btn btn-primary" (click)="setCount(customfield.value)">
+      Set
+    </button>
   </div>
 </div>
