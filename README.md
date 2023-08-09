@@ -14,4 +14,5 @@ _ explicitly invoked markForCheck() method on changeDectectorRef \* Any event ha
 # POINTS TO DISCUSS:
 1. Self-closing tags
 2. Flexible ngOnDestroy
-3. 
+3. Signal
+4. 
