@@ -25,7 +25,8 @@ Because of these risks, setting signals is disallowed by default in effects, but
 7. Signals, Computed Signals, Effects are scoped to its parent and will get destroy along with its parent.
 8. If the { manualCleanup: true } is passed as a param in effect then the effect will not be automatically destroyed along with its parent so we have to destroy it.
 9. If the { allowSignalWrites: true } is passed as a param in effect then the effect will allow us to set/write values to a signal inside it.
-10. 
+10. When creating a Writable signal (or) Computed Signal, you can optionally provide an equality function as a option param, which will be used to check whether the new value is actually different than the previous one and the signal won't trigger any update if both are same. For writable signals, .mutate() does not check for equality because it mutates the current value without producing a new reference.
+11. 
 
 
 # POINTS TO DISCUSS:

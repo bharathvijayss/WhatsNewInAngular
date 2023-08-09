@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, Signal, signal, computed, effect, Injector } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HomeComponent implements OnInit {
 
-  counterSignal: WritableSignal<number> = signal(0);
+  counterSignal: WritableSignal<number> = signal(0, { equal: _.isEqual });
   arrSignal: WritableSignal<string[]> = signal(['mondAy', 'tuEsday', 'wedNEsday']);
   caseSignal: WritableSignal<boolean> = signal(true);
   arrModifiedEffect: any;
