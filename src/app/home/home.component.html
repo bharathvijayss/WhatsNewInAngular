@@ -1,24 +1,50 @@
-<div class="d-flex mt-3 flex-column justify-content-center align-items-center">
-  <div class="mb-3 mt-3 fw-medium">
-    <app-signal-counter [Counter]="counterSignal()" />
+<div class="d-flex mt-3 flex-row justify-content-around">
+  <div id="counterDiv">
+    <div class="mb-3 mt-3 fw-medium">
+      <app-signal-counter [Counter]="counterSignal()" />
+    </div>
+    <div class="mb-3 mt-3">
+      <button class="btn btn-primary me-2" (click)="updateCount(1)">
+        Update (+1)
+      </button>
+      <button class="btn btn-primary" (click)="updateCount(-1)">
+        Update (-1)
+      </button>
+    </div>
+    <div class="mb-3 mt-3">
+      <form>
+        <mat-form-field>
+          <mat-label>Custom Count</mat-label>
+          <input type="number" matInput value="0" #customfield />
+        </mat-form-field>
+      </form>
+      <button class="btn btn-primary" (click)="setCount(customfield.value)">
+        Set
+      </button>
+    </div>
   </div>
-  <div class="mb-3 mt-3">
-    <button class="btn btn-primary me-2" (click)="updateCount(1)">
-      Update (+1)
-    </button>
-    <button class="btn btn-primary" (click)="updateCount(-1)">
-      Update (-1)
-    </button>
-  </div>
-  <div class="mb-3 mt-3">
-    <form>
-      <mat-form-field>
-        <mat-label>Custom Count</mat-label>
-        <input type="number" matInput value="0" #customfield />
-      </mat-form-field>
-    </form>
-    <button class="btn btn-primary" (click)="setCount(customfield.value)">
-      Set
-    </button>
+  <div id="arrDiv">
+    <div class="mb-3 mt-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <p *ngFor="let day of arrSignal()">{{ day }}</p>
+        </div>
+        <div>
+          <p *ngFor="let day of computedArrSignal()">{{ day }}</p>
+        </div>
+      </div>
+      <form>
+        <mat-form-field>
+          <mat-label>Add Day</mat-label>
+          <input type="text" matInput #dayfield />
+        </mat-form-field>
+      </form>
+      <button class="btn btn-primary" (click)="mutateArr(dayfield.value)">
+        Mutate
+      </button>
+      <mat-slide-toggle class="ms-3" color="primary" [checked]="caseSignal()" (toggleChange)="toggled()">
+        {{ caseSignal() ? "Upper Case" : "Lower Case" }}
+      </mat-slide-toggle>
+    </div>
   </div>
 </div>

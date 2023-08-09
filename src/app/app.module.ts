@@ -15,6 +15,7 @@ import { FlexibleDestroyComponent } from './flexible-destroy/flexible-destroy.co
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { FormsModule } from '@angular/forms';
     MatToolbarModule,
     MatFormFieldModule,
     FormsModule,
-    MatInputModule
+    MatInputModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

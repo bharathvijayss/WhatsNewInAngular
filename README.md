@@ -16,4 +16,5 @@
 1. Self-closing tags
 2. Flexible ngOnDestroy
 3. Signal
-4.
+4. Required inputs
+5. 
