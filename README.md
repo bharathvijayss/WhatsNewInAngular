@@ -35,7 +35,8 @@
 2. If an Observable used in toSignal produces an error, that error is thrown when the signal is read. If an Observable used in toSignal completes, the signal continues to return the most recently emitted value before completion.
 3. Options available for toSignal() is { initialValue, requireSync, manualCleanup }
 4. The toObservable utility creates an Observable which tracks the value of a signal. The signal's value is monitored with an effect, which emits the value to the Observable when it changes.
-5. 
+5. toObservable uses an effect to track the value of the signal in a ReplaySubject. On subscription, the first value (if available) may be emitted synchronously, and all subsequent values will be asynchronous. Unlike Observables, signals never provide a synchronous notification of changes. Even if your code updates a signal's value multiple times, effects which depend on its value run only after the signal has "settled". 
+6. toObservable by default needs to run in an injection context, such as during construction of a component or service. If an injection context is not available, an Injector can instead be explicitly specified.
 
 # POINTS TO DISCUSS:
 
