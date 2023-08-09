@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, Signal, signal, computed, effect, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, Signal, signal, computed, effect, Injector, untracked } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as _ from 'lodash';
 
@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   counterSignal: WritableSignal<number> = signal(0, { equal: _.isEqual });
   arrSignal: WritableSignal<string[]> = signal(['mondAy', 'tuEsday', 'wedNEsday']);
   caseSignal: WritableSignal<boolean> = signal(true);
+  untrackedCountSignal: WritableSignal<boolean> = signal(false);
   arrModifiedEffect: any;
 
   computedArrSignal: Signal<string[]> = computed(() => {
@@ -40,7 +41,11 @@ export class HomeComponent implements OnInit {
   startNotification() {
     this.arrModifiedEffect = effect((effectCleanUpFn) => {
       if (this.caseSignal()) {
-        this.toastr.success(`Total Available Days: ${this.arrSignal().length} and Total Count Available: ${this.counterSignal()}`);
+        if (this.untrackedCountSignal()) {
+          this.toastr.success(`Total Available Days: ${this.arrSignal().length} and Total Count Available: ${untracked(() => { return this.counterSignal() })}`);
+        } else {
+          this.toastr.success(`Total Available Days: ${this.arrSignal().length} and Total Count Available: ${this.counterSignal()}`);
+        }
       } else {
         this.toastr.success(`Total Available Days: ${this.arrSignal().length}`);
       }
@@ -76,6 +81,10 @@ export class HomeComponent implements OnInit {
     } else {
       this.startNotification();
     }
+  }
+
+  toggledTacking() {
+    this.untrackedCountSignal.update((prev) => !prev);
   }
 
   // Need to learn usage of effectCleanUp Function usage
