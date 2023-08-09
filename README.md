@@ -59,3 +59,4 @@ Optional zone.js -> local change detection -> simplifying angualr life cycle api
 4. Required inputs
 5. ES Build + Vite
 6. RoadMap of Angular Regarding Signals
+7. RxJs Observer Syntax
